@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net"
 	"net/http"
 	"os"
 	"strconv"
@@ -53,6 +54,42 @@ func lineToStruc(lines [][]string) {
 			fecha_referido:           strings.TrimSpace(line[11]),
 			eess_destino_id:          strings.TrimSpace(line[12]),
 		})
+	}
+}
+
+//variables globales
+var eschucha_funcion bool
+var remotehost string
+var n, min, valorUsuario int
+
+func enviar(num int) { //enviar el numero mayor al host remoto
+	conn, _ := net.Dial("tcp", remotehost)
+	defer conn.Close()
+	//envio el número
+	fmt.Fprintf(conn, "%d\n", num)
+
+}
+
+func enviar_Principal(num int) { //enviar el numero mayor al host remoto
+	conn, _ := net.Dial("tcp", "localhost:8000")
+	defer conn.Close()
+	//envio el número
+	fmt.Fprintf(conn, "%d\n", num)
+
+}
+
+func manejador_respueta(conn net.Conn) bool {
+	defer conn.Close()
+	eschucha_funcion = false
+	bufferIn := bufio.NewReader(conn)
+	numStr, _ := bufferIn.ReadString('\n')
+	numStr = strings.TrimSpace(numStr)
+	numero, _ := strconv.Atoi(numStr)
+	strNumero := strconv.Itoa(numero)
+	if strNumero[1] == 49 {
+		return true
+	} else {
+		return false
 	}
 }
 

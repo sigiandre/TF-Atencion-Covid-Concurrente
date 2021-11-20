@@ -99,13 +99,13 @@ func readFileUrl(filePathUrl string) ([][]string, error) {
 	if err != nil {
 		return [][]string{}, err
 	}
+	defer f.Body.Close()
 
 	// Leer archivo en una variable
 	lines, err := csv.NewReader(f.Body).ReadAll()
 	if err != nil {
 		return [][]string{}, err
 	}
-	defer f.Body.Close()
 	return lines, nil
 }
 

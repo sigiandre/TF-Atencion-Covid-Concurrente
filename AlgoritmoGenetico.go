@@ -19,19 +19,19 @@ import (
 var atencions []Atencion
 
 type Atencion struct {
-	id_persona               int    `json:"id_persona"`
-	id_eess                  string `json:"id_eess"`
-	fecha_ingreso            string `json:"fecha_ingreso"`
-	hora_ingreso             string `json:"hora_ingreso"`
-	es_recuperado            string `json:"es_recuperado"`
-	fecha_alta               string `json:"fecha_alta"`
-	es_recuperado_voluntario string `json:"es_recuperado_voluntario"`
-	fecha_alta_voluntaria    string `json:"fecha_alta_voluntaria"`
-	es_fallecido             string `json:"es_fallecido"`
-	fecha_fallecido          string `json:"fecha_fallecido"`
-	es_referido              string `json:"es_referido"`
-	fecha_referido           string `json:"fecha_referido"`
-	eess_destino_id          string `json:"eess_destino_id"`
+	Id_persona               int    `json:"id_persona"`
+	Id_eess                  string `json:"id_eess"`
+	Fecha_ingreso            string `json:"fecha_ingreso"`
+	Hora_ingreso             string `json:"hora_ingreso"`
+	Es_recuperado            string `json:"es_recuperado"`
+	Fecha_alta               string `json:"fecha_alta"`
+	Es_recuperado_voluntario string `json:"es_recuperado_voluntario"`
+	Fecha_alta_voluntaria    string `json:"fecha_alta_voluntaria"`
+	Es_fallecido             string `json:"es_fallecido"`
+	Fecha_fallecido          string `json:"fecha_fallecido"`
+	Es_referido              string `json:"es_referido"`
+	Fecha_referido           string `json:"fecha_referido"`
+	Eess_destino_id          string `json:"eess_destino_id"`
 }
 
 func lineToStruc(lines [][]string) {
@@ -40,19 +40,19 @@ func lineToStruc(lines [][]string) {
 		id_persona, _ := strconv.Atoi(strings.TrimSpace(line[0]))
 
 		atencions = append(atencions, Atencion{
-			id_persona:               id_persona,
-			id_eess:                  strings.TrimSpace(line[1]),
-			fecha_ingreso:            strings.TrimSpace(line[2]),
-			hora_ingreso:             strings.TrimSpace(line[3]),
-			es_recuperado:            strings.TrimSpace(line[4]),
-			fecha_alta:               strings.TrimSpace(line[5]),
-			es_recuperado_voluntario: strings.TrimSpace(line[6]),
-			fecha_alta_voluntaria:    strings.TrimSpace(line[7]),
-			es_fallecido:             strings.TrimSpace(line[8]),
-			fecha_fallecido:          strings.TrimSpace(line[9]),
-			es_referido:              strings.TrimSpace(line[10]),
-			fecha_referido:           strings.TrimSpace(line[11]),
-			eess_destino_id:          strings.TrimSpace(line[12]),
+			Id_persona:               id_persona,
+			Id_eess:                  strings.TrimSpace(line[1]),
+			Fecha_ingreso:            strings.TrimSpace(line[2]),
+			Hora_ingreso:             strings.TrimSpace(line[3]),
+			Es_recuperado:            strings.TrimSpace(line[4]),
+			Fecha_alta:               strings.TrimSpace(line[5]),
+			Es_recuperado_voluntario: strings.TrimSpace(line[6]),
+			Fecha_alta_voluntaria:    strings.TrimSpace(line[7]),
+			Es_fallecido:             strings.TrimSpace(line[8]),
+			Fecha_fallecido:          strings.TrimSpace(line[9]),
+			Es_referido:              strings.TrimSpace(line[10]),
+			Fecha_referido:           strings.TrimSpace(line[11]),
+			Eess_destino_id:          strings.TrimSpace(line[12]),
 		})
 	}
 }
@@ -95,18 +95,19 @@ func manejador_respueta(conn net.Conn) bool {
 
 func readFileUrl(filePathUrl string) ([][]string, error) {
 	// Abrir archivo CSV
-	f, err := http.Get(filePathUrl)
+	resp, err := http.Get(filePathUrl)
 	if err != nil {
-		return [][]string{}, err
+		return nil, err
 	}
-	defer f.Body.Close()
 
-	// Leer archivo en una variable
-	lines, err := csv.NewReader(f.Body).ReadAll()
+	defer resp.Body.Close()
+	reader := csv.NewReader(resp.Body)
+	reader.Comma = ','
+	data, err := reader.ReadAll()
 	if err != nil {
-		return [][]string{}, err
+		return nil, err
 	}
-	return lines, nil
+	return data, nil
 }
 
 // Get all Atencion
@@ -121,13 +122,21 @@ func getAtencion(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 
 	for _, item := range atencions {
-		idpersona, _ := strconv.Atoi(params["id_persona"])
-		if item.id_persona == idpersona {
+		idpersona, _ := strconv.Atoi(params["id"])
+		if item.Id_persona == idpersona {
 			json.NewEncoder(w).Encode(item)
 			return
 		}
 	}
 	json.NewEncoder(w).Encode(&Atencion{})
+}
+
+func createAtencion(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	var atencion Atencion
+	_ = json.NewDecoder(r.Body).Decode(&atencion)
+	atencions = append(atencions, atencion)
+	json.NewEncoder(w).Encode(atencion)
 }
 
 func main() {
@@ -152,6 +161,7 @@ func main() {
 
 	r.HandleFunc("/atencions", getAtencions).Methods("GET")
 	r.HandleFunc("/atencions/{id}", getAtencion).Methods("GET")
+	r.HandleFunc("/atencions", createAtencion).Methods("POST")
 
 	headers := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
 	methods := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE"})

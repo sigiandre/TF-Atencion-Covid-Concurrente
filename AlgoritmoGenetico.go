@@ -62,6 +62,7 @@ var eschucha_funcion bool
 var remotehost string
 var n, min, valorUsuario int
 
+//SEND
 func enviar(num int) { //enviar el numero mayor al host remoto
 	conn, _ := net.Dial("tcp", remotehost)
 	defer conn.Close()
@@ -92,8 +93,7 @@ func manejador_respueta(conn net.Conn) bool {
 		return false
 	}
 }
-
-//Lee archivo de url
+// Se lee archivo de url
 func readFileUrl(filePathUrl string) ([][]string, error) {
 	// Abrir archivo CSV
 	resp, err := http.Get(filePathUrl)

@@ -1,55 +1,75 @@
 <template>
-  <v-app>
-    <v-app-bar
+  <v-app id="inspire">
+    <v-navigation-drawer v-model="drawer" 
+      :clipped="$vuetify.breakpoint.lgAndUp" 
       app
-      color="primary"
-      dark
     >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+    <v-list dense>
+      <template>
+        <v-list-item :to="{ name:'Home' }">
+          <v-list-item-action>
+            <v-icon>home</v-icon>
+          </v-list-item-action>
+          <v-list-item-title>
+            Inicio
+          </v-list-item-title>
+        </v-list-item>
+      </template>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
+      <template>
+        <v-list-group>
+          <v-list-item slot="activator">
+            <v-list-item-content>
+              <v-list-item-title>
+                Atencion
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item :to="{ name:'atencions' }">
+            <v-list-item-action>
+              <v-icon>table_chart</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>
+                Atencions
+              </v-list-item-title> 
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
+      </template>
+    </v-list>
+    </v-navigation-drawer>
 
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>open_in_new</v-icon>
+    <v-app-bar :clipped-left="$vuetify.breakpoint.lgAndUp" app 
+      color="indigo darken-4" dark>
+      <v-toolbar-title style="width: 300px" class="ml-0 pl-4">
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+        <span class="hidden-sm-and-down">Atencion</span>
+      </v-toolbar-title>
+      <v-spacer />
+      <v-btn icon>
+        <v-icon>view_list</v-icon>
       </v-btn>
     </v-app-bar>
-
-    <v-main>
-      <router-view/>
-    </v-main>
+    <v-content>
+      <v-container class="fill-height" fluid>
+        <v-slide-x-transition mode="out-in">
+          <router-view />
+        </v-slide-x-transition>
+      </v-container>
+    </v-content>
   </v-app>
 </template>
 
 <script>
-
+import Atencion from './components/Atencion';
 export default {
   name: 'App',
-
+  components: {
+    Atencion
+  },
   data: () => ({
-    //
+    drawer: null
   }),
 };
 </script>

@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math/rand"
 	"net"
 	"net/http"
 	"os"
@@ -93,6 +94,7 @@ func manejador_respueta(conn net.Conn) bool {
 		return false
 	}
 }
+
 // Se lee archivo de url
 func readFileUrl(filePathUrl string) ([][]string, error) {
 	// Abrir archivo CSV
@@ -141,6 +143,7 @@ func createAtencion(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	rand.Seed(1)
 	bufferIn := bufio.NewReader(os.Stdin)
 
 	filePathUrl := "https://raw.githubusercontent.com/sigiandre/TF-Atencion-Covid-Concurrente/master/dataset/TB_ATEN_COVID19.csv"
@@ -149,9 +152,18 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Println("Leyo archivos")
+	Info("Leyo archivos")
 	lineToStruc(lines)
-	fmt.Println("Parseo Archivos")
+	Info("Parseo Archivos")
+
+	// Obtener genes
+	genotipos := InitGenetico(atencions[1:100])
+	Info("Genotipo inicializado", len(genotipos))
+
+	for i := 1; i < 1000; i++ { // 1.071202956485e+12
+		Info("Ejecutando generacion N:", i)
+		genotipos = SiguienteGeneracion(genotipos, atencions[1:100])
+	}
 
 	//tipo de nodo
 	log.Print("Ingrese el tipo de nodo (i:inicio -n:intermedio - f:final): ")
@@ -170,6 +182,6 @@ func main() {
 
 	// Start server
 	port := ":8000"
-	fmt.Println("Escuchando en " + port)
+	Info("Escuchando en " + port)
 	log.Fatal(http.ListenAndServe(port, handlers.CORS(headers, methods, origins)(r)))
 }

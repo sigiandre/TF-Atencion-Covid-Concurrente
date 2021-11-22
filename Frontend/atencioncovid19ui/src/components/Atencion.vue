@@ -15,7 +15,7 @@
                 <v-spacer></v-spacer>
                 <v-dialog v-model="dialog" max-width="500px">
                     <template v-slot:activator="{ on }">
-                        <v-btn color="primary" dark class="mb-2" v-on="on">New Atención</v-btn>
+                        <v-btn color="primary" dark class="mb-2" v-on="on">Nueva Atención</v-btn>
                     </template>
                     <v-card>
                         <v-card-title>

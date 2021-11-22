@@ -12,19 +12,19 @@
 
       <v-col class="mb-4">
         <h1 class="display-2 font-weight-bold mb-3">
-          BD Atencion Covid 19 - TF Programacion Concurrente y Distribuida
+          BD Atención Covid 19 - TF Programación Concurrente y Distribuida
         </h1>
 
         <h3 class="subheading font-weight-regular-bold mb-3">
-          Sigi Andre Diaz Quiroz - U201621283 - Ingenieria de Software
+          Sigi Andre Diaz Quiroz - U201621283 - Ingeniería de Software
         </h3>
 
         <h3 class="subheading font-weight-regular-bold mb-3">
-          Nicole Jealid Kuylen Aranda - u201711586 - Ingenieria de Software
+          Nicole Jealid Kuylen Aranda - u201711586 - Ingeniería de Software
         </h3>
 
         <h3 class="subheading font-weight-regular-bold mb-3">
-          Joaquin Alonso Egocheaga Ramos - U201715418 - Ingenieria de Software
+          Joaquin Alonso Egocheaga Ramos - U201715418 - Ingeniería de Software
         </h3>
 
         <h3 class="subheading font-weight-regular-bold mb-3">

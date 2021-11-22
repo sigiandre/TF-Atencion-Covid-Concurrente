@@ -15,3 +15,4 @@ RUN go build -o /docker-gs-ping
 EXPOSE 8000
 # run api-svc001.go
 CMD [ "/docker-gs-ping" ]
+#d

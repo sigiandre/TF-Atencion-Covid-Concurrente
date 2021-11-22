@@ -93,6 +93,7 @@ func manejador_respueta(conn net.Conn) bool {
 	}
 }
 
+//Lee archivo de url
 func readFileUrl(filePathUrl string) ([][]string, error) {
 	// Abrir archivo CSV
 	resp, err := http.Get(filePathUrl)

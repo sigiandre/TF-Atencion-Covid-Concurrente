@@ -1,9 +1,9 @@
 <template>
     <v-data-table 
     :headers="headers"
-    :items="ongs"
+    :items="atencions"
     :search="search"
-    sort-by="institucion"
+    sort-by="id_persona"
     class="elevation-1" style="width:1300px">
         <template v-slot:top>
             <v-toolbar flat color="white">
@@ -95,7 +95,7 @@
         </template>
 
         <template v-slot:no-data>
-            <v-btn color="primary" @click="listOngs">Reset</v-btn>
+            <v-btn color="primary" @click="listAtencions">Reset</v-btn>
         </template>
     </v-data-table>
 </template>
@@ -197,7 +197,7 @@
                     'eess_destino_id': me.eess_destino_id,
                 }).then(function(response){
                     me.close();
-                    me.listOngs();
+                    me.listAtencions();
                     me.clean();
                 }).catch(function(error) {
                     console.log(error);

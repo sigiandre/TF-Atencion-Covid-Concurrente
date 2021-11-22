@@ -26,22 +26,43 @@
                             <v-container>
                                 <v-row>
                                     <v-col cols="12" sm="12" md="12">
-                                        <v-text-field v-model="institucion" label="Institucion"></v-text-field>
+                                        <v-text-field v-model="id_persona" label="Id_persona"></v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="12">
-                                        <v-text-field v-model="departamento" label="Departamento"></v-text-field>
+                                        <v-text-field v-model="id_eess" label="Id_eess"></v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="12">
-                                        <v-text-field v-model="provincia" label="Provincia"></v-text-field>
+                                        <v-text-field v-model="fecha_ingreso" label="Fecha_ingreso"></v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="12">
-                                        <v-text-field v-model="distrito" label="Distrito"></v-text-field>
+                                        <v-text-field v-model="hora_ingreso" label="Hora_ingreso"></v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="12">
-                                        <v-text-field v-model="representante" label="Representante"></v-text-field>
+                                        <v-text-field v-model="es_recuperado" label="Es_recuperado"></v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="12">
-                                        <v-text-field v-model="sector" label="Sector"></v-text-field>
+                                        <v-text-field v-model="fecha_alta" label="Fecha_alta"></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="12">
+                                        <v-text-field v-model="es_recuperado_voluntario" label="Es_recuperado_voluntario"></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="12">
+                                        <v-text-field v-model="fecha_alta_voluntaria" label="Fecha_alta_voluntaria"></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="12">
+                                        <v-text-field v-model="es_fallecido" label="Es_fallecido"></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="12">
+                                        <v-text-field v-model="fecha_fallecido" label="Fecha_fallecido"></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="12">
+                                        <v-text-field v-model="es_referido" label="Es_referido"></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="12">
+                                        <v-text-field v-model="fecha_referido" label="Fecha_referido"></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="12">
+                                        <v-text-field v-model="eess_destino_id" label="Eess_destino_id"></v-text-field>
                                     </v-col>
                                 </v-row>
                             </v-container>
@@ -57,12 +78,19 @@
         </template>
         <template v-slot:item="{ item }">
             <tr>
-                <td>{{ item.institucion }}</td>
-                <td>{{ item.departamento }}</td>
-                <td>{{ item.provincia }}</td>
-                <td>{{ item.distrito }}</td>
-                <td>{{ item.representante }}</td>
-                <td>{{ item.sector }}</td>
+                <td>{{ item.id_persona }}</td>
+                <td>{{ item.id_eess }}</td>
+                <td>{{ item.fecha_ingreso }}</td>
+                <td>{{ item.hora_ingreso }}</td>
+                <td>{{ item.es_recuperado }}</td>
+                <td>{{ item.fecha_alta }}</td>
+                <td>{{ item.es_recuperado_voluntario }}</td>
+                <td>{{ item.fecha_alta_voluntaria }}</td>
+                <td>{{ item.es_fallecido }}</td>
+                <td>{{ item.fecha_fallecido }}</td>
+                <td>{{ item.es_referido }}</td>
+                <td>{{ item.fecha_referido }}</td>
+                <td>{{ item.eess_destino_id }}</td>
             </tr>
         </template>
 
@@ -78,29 +106,42 @@
     export default {
         data:() => ({
             search: '',
-            numero: '',
-            institucion: '',
-            departamento: '',
-            provincia: '',
-            distrito: '',
-            representante: '',
-            sector: '',
+            id_persona: '',
+            id_eess: '',
+            fecha_ingreso: '',
+            hora_ingreso: '',
+            es_recuperado: '',
+            fecha_alta: '',
+            es_recuperado_voluntario: '',
+            fecha_alta_voluntaria: '',
+            es_fallecido: '',
+            fecha_fallecido: '',
+            es_referido: '',
+            fecha_referido: '',
+            eess_destino_id: '',
             dialog: false,
-            ongs: [],
+            atencions: [],
             valid: 0,
             validMessage: [],
             headers: [
-                { text: 'Institucion', value: 'institucion', sortable: true },
-                { text: 'Departamento', value: 'departamento', sortable: false },
-                { text: 'Provincia', value: 'provincia', sortable: false },
-                { text: 'Distrito', value: 'distrito', sortable: false },
-                { text: 'Representante', value: 'representante', sortable: false },
-                { text: 'Sector', value: 'sector', sortable: false },
+                { text: 'Id_persona', value: 'Id_persona', sortable: true },
+                { text: 'Id_eess', value: 'id_eess', sortable: false },
+                { text: 'Fecha_ingreso', value: 'fecha_ingreso', sortable: false },
+                { text: 'Hora_ingreso', value: 'hora_ingreso', sortable: false },
+                { text: 'Es_recuperado', value: 'es_recuperado', sortable: false },
+                { text: 'Fecha_alta', value: 'fecha_alta', sortable: false },
+                { text: 'Es_recuperado_voluntario', value: 'es_recuperado_voluntario', sortable: false },
+                { text: 'Fecha_alta_voluntaria', value: 'fecha_alta_voluntaria', sortable: false },
+                { text: 'Es_fallecido', value: 'es_fallecido', sortable: false },
+                { text: 'Fecha_fallecido', value: 'fecha_fallecido', sortable: false },
+                { text: 'Es_referido', value: 'es_referido', sortable: false },
+                { text: 'Fecha_referido', value: 'fecha_referido', sortable: false },
+                { text: 'Eess_destino_id', value: 'eess_destino_id', sortable: false },
             ]
         }),
         computed: {
             formTitle() {
-                return'New Ong';
+                return'New Atencion';
             }
         },
         watch: {
@@ -109,13 +150,13 @@
             }
         },
         created() {
-            this.listOngs();
+            this.listAtencions();
         },
         methods: {
-            listOngs() {
+            listAtencions() {
                 let me= this;
-                axios.get('ongs').then(function(response){
-                    me.ongs = response.data;
+                axios.get('atencions').then(function(response){
+                    me.atencions = response.data;
                 }).catch(function(error){
                     console.log(error);
                 })
@@ -124,24 +165,36 @@
                 this.dialog = false;
             },
             clean() {
-                this.numero = "";
-                this.institucion = "";
-                this.departamento = "";
-                this.provincia= "";
-                this.distrito = "";
-                this.representante = "";
-                this.sector = "";
+                this.id_persona = "",
+                this.id_eess = "",
+                this.fecha_ingreso = "",
+                this.hora_ingreso = "",
+                this.es_recuperado = "",
+                this.fecha_alta = "",
+                this.es_recuperado_voluntario = "",
+                this.fecha_alta_voluntaria = "",
+                this.es_fallecido = "",
+                this.fecha_fallecido = "",
+                this.es_referido = "",
+                this.fecha_referido = "",
+                this.eess_destino_id = ""
             },
             save() {
                 let me=this;
-                axios.post('ongs', {
-                    'numero': me.numero,
-                    'institucion': me.institucion,
-                    'departamento': me.departamento,
-                    'provincia': me.provincia,
-                    'distrito': me.distrito,
-                    'representante': me.representante,
-                    'sector': me.sector,
+                axios.post('atencions', {
+                    'id_persona' : me.id_persona,
+                    'id_eess': me.id_eess,
+                    'fecha_ingreso': me.fecha_ingreso,
+                    'hora_ingreso': me.hora_ingreso,
+                    'es_recuperado': me.es_recuperado,
+                    'fecha_alta': me.fecha_alta,
+                    'es_recuperado_voluntario': me.es_recuperado_voluntario,
+                    'fecha_alta_voluntaria': me.fecha_alta_voluntaria,
+                    'es_fallecido': me.es_fallecido,
+                    'fecha_fallecido': me.fecha_fallecido,
+                    'es_referido': me.es_referido,
+                    'fecha_referido': me.fecha_referido,
+                    'eess_destino_id': me.eess_destino_id,
                 }).then(function(response){
                     me.close();
                     me.listOngs();
